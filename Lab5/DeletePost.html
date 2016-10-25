@@ -1,0 +1,63 @@
+<html>
+<body>
+  <form action="DeletePost.php" method="post">
+ <td><a href="AdminHome.html">Home</a></td>
+  <?php
+
+$mysqli = new mysqli("mysql.eecs.ku.edu", "nsingh", "Password123!", "nsingh");
+
+  if ($mysqli->connect_error)
+  {
+      die("Connection failed: ".$mysqli->connect_error);
+      exit();
+  }
+
+  $query="SELECT * FROM Posts";
+
+  if ($mysqli->query($query))
+  {
+    $queryresults=$mysqli->query($query);
+  }
+  else
+  {
+      echo 'Error: ' . $query . '<br>' . $mysqli->error;
+  }
+
+  echo '<table><tr><th>Author</th><th>Post</th><th>Delete?</th>';
+  while ($row=$queryresults->fetch_assoc())
+  {
+    echo "<tr><td>" .$row['author_id']."</td><td>".$row['content']."</td><td><input type=checkbox name=delete[] value=".$row['post_id']. "></td></tr>";
+  }
+  echo '</table>';
+  ?>
+
+  <br><br>
+  <input type="submit" value="Press to delete posts from database">
+</form>
+
+</body>
+</html>
+
+ <style>
+     form {
+      background-color:  #00FFFF;
+      border-style: solid;
+      border-width: 10px;
+      border-color:#black;
+      font-size:50px;
+        font-weight: bold;
+    }
+    th {
+font-family: Arial;
+background: #666;
+color: #FFF;
+padding: 2px 6px;
+border-collapse: separate;
+border: 1px solid #000;
+}
+td {
+font-family: Arial, Helvetica, sans-serif;
+font-size: .7em;
+border: 1px solid #DDD;
+}
+    </style>
